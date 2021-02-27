@@ -3,7 +3,7 @@ A quick and easy way to include a bible verse in a jekyll site.
 
 ## Install
 
-Copy bible data folder across, and include file.
+Copy bible folder into _data folder, copy _include contents into site _include folder.
 
 ## Use
 
