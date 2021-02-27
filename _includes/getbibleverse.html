@@ -1,0 +1,28 @@
+{% comment %}
+getbibleverse.html bookname="John" chapter="3" verse="16"
+{% endcomment %}
+
+{% assign booknamearray = include.bookname | split: " " %}
+{% if booknamearray.size == 1 %}
+{% capture booknamecap %}{{booknamearray[0] | capitalize }}{%endcapture%}
+{% elsif booknamearray.size == 2 %}
+{% capture booknamecap %}{{booknamearray[0]}} {{booknamearray[1] | capitalize }}{%endcapture%}
+{% elsif booknamearray.size == 3 %}
+{% capture booknamecap %}Song of Solomon{%endcapture%}
+{% endif %}
+
+{%- for bk in site.data.bible.biblebooks -%}
+{%- if bk == booknamecap -%}
+{% capture booknum %}{{forloop.index | plus: 0}}{% endcapture %}
+{%- endif -%}
+{%- endfor -%}
+
+{% assign booknamedown = include.bookname | downcase | replace: " ","-" %}
+{% comment %}Bible Verse ID is Book Number Chapter Number(zero padded to 3) Verse Number (zero padded to 3) {% endcomment %}
+{% capture verseidnum %}{{booknum}}{{include.chapter | prepend: '0000' | slice: -3, 3 }}{{include.verse  | prepend: '0000' | slice: -3, 3 }}{% endcapture %}
+{%- for line in site.data.bible[booknamedown] -%}
+{%- if line.id == verseidnum -%}
+{{line.t}}
+{% break %}
+{%- endif -%}
+{%- endfor -%}
